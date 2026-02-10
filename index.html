@@ -1,11 +1,244 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My GitHub Page</title>
+<meta charset="UTF-8">
+<title>🚀 Astral Drift</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --space-dark: #0b0a0f;
+  --space-mid: #120f18;
+
+  --glow-amber: #f3a14b;
+  --glow-soft: #ffbf7a;
+
+  --text-warm: #f5e6d3;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at center, #1a1222 0%, var(--space-dark) 70%);
+  font-family: 'Orbitron', sans-serif;
+  color: var(--text-warm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.container {
+  width: 900px;
+  max-width: 95%;
+  padding: 18px;
+  background: linear-gradient(180deg, #0f0d16, #08070c);
+  border: 2px solid var(--glow-amber);
+  box-shadow: 0 0 40px rgba(243, 161, 75, 0.25);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.header h1 {
+  margin: 0;
+  color: var(--glow-amber);
+  letter-spacing: 2px;
+}
+
+.header p {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.wip {
+  text-align: center;
+  font-size: 10px;
+  padding: 6px;
+  background: linear-gradient(90deg, var(--glow-amber), var(--glow-soft));
+  color: #1b0e05;
+  margin-bottom: 10px;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 450px;
+  background: radial-gradient(circle at bottom, #1b1430, #05040a);
+  border: 1px solid rgba(243, 161, 75, 0.4);
+}
+
+.footer {
+  text-align: center;
+  font-size: 9px;
+  margin-top: 8px;
+  opacity: 0.5;
+}
+</style>
 </head>
+
 <body>
-  <h1>Hello World 👋</h1>
-  <p>This is my first GitHub Pages site.</p>
+
+<div class="container">
+  <div class="header">
+    <h1>ASTRAL DRIFT</h1>
+    <p>Survive the silence of space</p>
+  </div>
+
+  <div class="wip">🚧 WORK IN PROGRESS — CINEMATIC SPACE SIMULATION 🚧</div>
+
+  <canvas id="game"></canvas>
+
+  <div class="footer">
+    Controls: ← → ↑ ↓ • Inspired by Interstellar • Built in pure canvas
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+canvas.width = canvas.offsetWidth;
+canvas.height = canvas.offsetHeight;
+
+const centerX = canvas.width / 2;
+const centerY = canvas.height / 2;
+
+let stars = [];
+let asteroids = [];
+let frame = 0;
+let speed = 0.8;
+let gameOver = false;
+
+const astronaut = {
+  x: 0,
+  y: 0
+};
+
+// ---------- STARFIELD (3D DEPTH) ----------
+for (let i = 0; i < 300; i++) {
+  stars.push({
+    x: (Math.random() - 0.5) * canvas.width,
+    y: (Math.random() - 0.5) * canvas.height,
+    z: Math.random() * canvas.width
+  });
+}
+
+// ---------- ASTEROIDS ----------
+function spawnAsteroid() {
+  asteroids.push({
+    x: (Math.random() - 0.5) * canvas.width,
+    y: (Math.random() - 0.5) * canvas.height,
+    z: canvas.width,
+    r: 20 + Math.random() * 30
+  });
+}
+
+// ---------- DRAW ----------
+function drawStars() {
+  ctx.fillStyle = "#fff";
+  stars.forEach(s => {
+    const k = 200 / s.z;
+    const px = s.x * k + centerX;
+    const py = s.y * k + centerY;
+
+    if (px >= 0 && px <= canvas.width && py >= 0 && py <= canvas.height) {
+      ctx.globalAlpha = 1 - s.z / canvas.width;
+      ctx.fillRect(px, py, 2, 2);
+    }
+
+    s.z -= speed * 2;
+    if (s.z <= 1) s.z = canvas.width;
+  });
+  ctx.globalAlpha = 1;
+}
+
+function drawAstronaut() {
+  ctx.save();
+  ctx.translate(centerX + astronaut.x, centerY + astronaut.y);
+
+  ctx.beginPath();
+  ctx.arc(0, 0, 12, 0, Math.PI * 2);
+  ctx.fillStyle = "#f3a14b";
+  ctx.shadowColor = "#ffbf7a";
+  ctx.shadowBlur = 20;
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(0, 0, 6, 0, Math.PI * 2);
+  ctx.fillStyle = "#0b0a0f";
+  ctx.fill();
+
+  ctx.restore();
+  ctx.shadowBlur = 0;
+}
+
+function drawAsteroids() {
+  asteroids.forEach(a => {
+    const k = 200 / a.z;
+    const px = a.x * k + centerX;
+    const py = a.y * k + centerY;
+    const r = a.r * k;
+
+    ctx.beginPath();
+    ctx.arc(px, py, r, 0, Math.PI * 2);
+    ctx.fillStyle = "#2a1c12";
+    ctx.shadowColor = "#f3a14b";
+    ctx.shadowBlur = 15;
+    ctx.fill();
+
+    a.z -= speed * 3;
+
+    // Collision
+    const dx = px - (centerX + astronaut.x);
+    const dy = py - (centerY + astronaut.y);
+    if (Math.sqrt(dx*dx + dy*dy) < r + 10) {
+      gameOver = true;
+    }
+  });
+
+  asteroids = asteroids.filter(a => a.z > 0);
+  ctx.shadowBlur = 0;
+}
+
+// ---------- CONTROLS ----------
+window.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft") astronaut.x -= 10;
+  if (e.key === "ArrowRight") astronaut.x += 10;
+  if (e.key === "ArrowUp") astronaut.y -= 10;
+  if (e.key === "ArrowDown") astronaut.y += 10;
+});
+
+// ---------- LOOP ----------
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  drawStars();
+  drawAsteroids();
+  drawAstronaut();
+
+  if (frame % 80 === 0 && !gameOver) spawnAsteroid();
+
+  if (gameOver) {
+    ctx.fillStyle = "#f5e6d3";
+    ctx.font = "20px Orbitron";
+    ctx.fillText("SIGNAL LOST", centerX - 90, centerY);
+    ctx.font = "12px Orbitron";
+    ctx.fillText("Refresh to drift again", centerX - 85, centerY + 25);
+  } else {
+    frame++;
+    requestAnimationFrame(animate);
+  }
+}
+
+animate();
+</script>
+
 </body>
 </html>
-
