@@ -1,0 +1,86 @@
+:root {
+  --lamp-dark: #3B3934;
+  --lamp-light: #FFCD70;
+}
+
+/* THEMES */
+body[data-theme="dark"] {
+  background: #0e0e0e;
+  color: #eaeaea;
+}
+
+body[data-theme="light"] {
+  background: #ffffff;
+  color: #111;
+}
+
+/* SHARE BUTTON */
+.share-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #FFCD70;
+  color: #000;
+  border: none;
+  padding: 10px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 999px;
+}
+
+/* LAMP */
+.lamp-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 120px;
+}
+
+#lamp-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.lamp {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--lamp-dark);
+  transition:
+    background 0.5s ease,
+    transform 0.4s ease,
+    box-shadow 0.5s ease;
+}
+
+/* Light mode lamp */
+body[data-theme="light"] .lamp {
+  background: var(--lamp-light);
+  box-shadow: 0 0 40px rgba(255, 205, 112, 0.7);
+}
+
+/* Lamp Animation */
+#lamp-toggle:active .lamp {
+  transform: scale(0.92);
+}
+
+/* FOOTER */
+.footer {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.footer a {
+  text-decoration: none;
+  color: inherit;
+  font-weight: 500;
+  opacity: 0.75;
+  transition: opacity 0.2s ease;
+}
+
+.footer a:hover {
+  opacity: 1;
+}
