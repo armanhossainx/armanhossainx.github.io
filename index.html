@@ -200,13 +200,31 @@
     }
 
     /* Divider */
-    .divider {
-      width: 100%;
-      max-width: 284px;
-      height: 1px;
-      background-color: #000000;
-      margin: 20px auto;
-    }
+    ..divider {
+  width: 100%;
+  max-width: 284px;
+  height: 1.5px;
+  margin: 20px auto;
+
+  background: linear-gradient(
+    90deg,
+    #8F8F8F,
+    #292929,
+    #8F8F8F
+  );
+
+  background-size: 200% 100%;
+  animation: flowGradient 4s linear infinite;
+}
+@keyframes flowGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
 
  
 /* Bio */
