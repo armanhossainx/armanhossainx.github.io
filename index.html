@@ -27,27 +27,32 @@
     }
 
     /* Main Frame */
-    .frame {
-      width: 100%;
-      max-width: 440px;
-      min-height: 900px;
-      background: #ffffff;
-      border-radius: 110px;
-      padding: 0 30px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+   .frame {
+  width: 100%;
+  max-width: 440px;
+  min-height: 900px;
+  background: #ffffff;
+  border-radius: 110px;
+  padding: 0 30px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;  
+}
+
 
     /* Top Icons */
-    .top-icons {
-  margin-top: 45px; 
-  padding: 0 10px;  
+  .top-icons {
+  position: absolute;
+  top: 48px;      /* distance from top of frame */
+  left: 40px;     /* distance from left curve */
+  right: 40px;    /* distance from right curve */
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 
     .lamp svg {
       width: 32px;
