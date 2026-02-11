@@ -200,23 +200,25 @@
     }
 
     /* Divider */
-    .divider {
+   .divider {
   width: 100%;
   max-width: 284px;
-  height: 1.5px;
+  height: 2px;
   margin: 20px auto;
+  border-radius: 2px;
 
   background: linear-gradient(
     90deg,
-    #8F8F8F,
-    #292929,
-    #8F8F8F
+    #8F8F8F 0%,
+    #292929 50%,
+    #8F8F8F 100%
   );
 
   background-size: 200% 100%;
-  animation: flowGradient 4s linear infinite;
+  animation: dividerFlow 3s linear infinite;
 }
-@keyframes flowGradient {
+
+@keyframes dividerFlow {
   0% {
     background-position: 0% 50%;
   }
@@ -225,14 +227,17 @@
   }
 }
 
+
 body.dark .divider {
   background: linear-gradient(
     90deg,
-    #ffffff,
-    #777777,
-    #ffffff
+    #ffffff 0%,
+    #777777 50%,
+    #ffffff 100%
   );
+  background-size: 200% 100%;
 }
+
 
 
     
