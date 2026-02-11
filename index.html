@@ -280,7 +280,7 @@ body.dark .name {
   </div>
 
   <!-- Share -->
-  <div class="share">
+  <div class="share" id="shareBtn">
     <svg viewBox="0 0 48 48">
       <path fill="none"
             stroke="currentColor"
@@ -417,6 +417,35 @@ body.dark .name {
   }
 
   window.addEventListener("load", typeEffect);
+
+  /* ================= SHARE BUTTON ================= */
+
+const shareBtn = document.getElementById("shareBtn");
+
+shareBtn.addEventListener("click", async () => {
+  const shareData = {
+    title: "Mohammed Arman Hossain",
+    text: "Check out this portfolio 👀",
+    url: window.location.href
+  };
+
+  if (navigator.share) {
+    try {
+      await navigator.share(shareData);
+    } catch (err) {
+      console.log("Share cancelled");
+    }
+  } else {
+    // Fallback: copy link
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      alert("Link copied to clipboard!");
+    } catch (err) {
+      alert("Could not copy link.");
+    }
+  }
+});
+
 </script>
 
 
