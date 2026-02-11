@@ -43,6 +43,40 @@
   position: relative;  
 }
 
+    /* ================= AMBIENT BACKGROUND ================= */
+
+.ambient-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    45deg,
+    #f5f5f5,
+    #e8e8e8,
+    #f0f0f0,
+    #ffffff
+  );
+  background-size: 300% 300%;
+  animation: gradientMove 18s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+    body.dark .ambient-bg {
+  background: linear-gradient(
+    45deg,
+    #1e1e1e,
+    #2a2a2a,
+    #252525,
+    #1a1a1a
+  );
+  background-size: 300% 300%;
+}
+
 
     /* Top Icons */
   .top-icons {
@@ -278,6 +312,7 @@ body.dark .name {
 </head>
 <body>
 
+  <div class="ambient-bg"></div>
   <div class="frame">
 
    <div class="top-icons">
